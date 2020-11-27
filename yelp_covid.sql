@@ -149,6 +149,32 @@ where address like ', street,  %0%';
 
 -- average rating per cuisine 
 
+
+
+-- shows the difference in property costs, and therefore, the rent costs of different regions in boston
+create view downtown_property as
+select zip_code, round(avg(value)) as 'average_property_value'
+from property_assessment
+where zip_code in ('02108', '02109', '02110', '02210', '02114', '02113', '02116', '02118')
+group by zip_code
+order by average_property_value desc;
+
+create view non_downtown_property as
+select zip_code, round(avg(value)) as 'average_property_value'
+from property_assessment
+where zip_code in ('02115', '02129', '02128')
+group by zip_code
+order by average_property_value desc;
+
+select round(avg(average_property_value)) as 'average_value'
+from downtown_property;
+
+select round(avg(average_property_value)) as 'average_value'
+from non_downtown_property;
+
+
+
+
 -- what percentage of each cuisine was closed post-covid 
 -- which cuisine type had the highest percentage of closed restaurants
 -- average rent price for zipcodes with highest closed restaurants rate 
